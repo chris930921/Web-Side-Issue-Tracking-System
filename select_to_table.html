@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+<script>
+$(document).ready(function(){
+  $("button").click(function(){
+    $.post("select_salt.php",{},
+    function(data,status){
+    	var table = document.getElementById("table");
+    	for(var index in data){ 
+        	var obj = data[index];
+	    	var id_td = "<td>" + obj.id + "</td>";
+	    	var email_td = "<td>" + obj.email + "</td>";
+	    	var salt_td = "<td>" + obj.salt + "</td>";
+	    	var tr = "<tr>" + id_td + email_td + salt_td + "</tr>";
+	    	table.innerHTML = table.innerHTML + tr;
+		}
+    });
+  });
+});
+</script>
+</head>
+<body>
+
+<button>Send an HTTP POST request to a page and get the result back</button>
+<table frame="border" rules="all">
+   <tbody id="table">
+   </tbody>
+ </table>
+</body>
+</html>

@@ -1,0 +1,3 @@
+Options All -Indexes
+
+ErrorDocument 404 /AjaxFinal/Error_404.html

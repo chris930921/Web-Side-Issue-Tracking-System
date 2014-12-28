@@ -8,7 +8,16 @@
     from {top: 0px;}
     to {top: 100%;}
 }
+/* Chrome, Safari, Opera */
+@-webkit-keyframes open_login {
+    from {top: 100%;}
+    to {top: 0px;}
+}
 
+@keyframes open_login {
+    from {top: 100%;}
+    to {top: 0px;}
+}
 /*------------------------*/
 .spinner_block {
 	position: fixed;/*固定在上方*/

@@ -1,7 +1,7 @@
 window.onload = function(){
 	console.log("Dom loaded.");
-	$(document).ready(init);
 	hidden();
+	$(document).ready(init);
 }
 
 function init(){
@@ -62,24 +62,32 @@ function init(){
 	var logout = document.getElementById("logout_button");
 	logout.addEventListener("click",function(){
 		document.cookie='{}';
+		document.getElementById("login").style.visibility = "visible";
+		document.getElementById("login").removeEventListener("webkitAnimationEnd", logined_animation_end);
+		document.getElementById("login").style.WebkitAnimation = "open_login 1s 1";
+		document.getElementById("login").style.animation = "open_login 1s 1";
+
+		hidden();
 	});
 }
 function logined(){
 	document.getElementById("login").style.WebkitAnimation = "close_login 1s 1";
 	document.getElementById("login").style.animation = "close_login 1s 1";
-	document.getElementById("login").addEventListener("webkitAnimationEnd", function(e){
-		document.getElementById("login").style.visibility = "hidden";
-		document.getElementById("login").style.animation = "";
-	}, false);
+	document.getElementById("login").addEventListener("webkitAnimationEnd", logined_animation_end, false);
 	var elements = document.getElementsByClassName('right_option');
 	for(var i = 0; i<elements.length; i++){
-		elements[i].style.display='inline';
+		elements[i].style.visibility='visible';
 	}
 }
 function hidden(){
-	document.getElementById("load_spinner").style.display='none';
+	document.getElementById("load_spinner").style.visibility='hidden';
 	var elements = document.getElementsByClassName('right_option');
 	for(var i = 0; i<elements.length; i++){
-		elements[i].style.display='none';
+		elements[i].style.visibility='hidden';
 	}
+}
+function logined_animation_end(){
+	document.getElementById("login").style.visibility = "hidden";
+	document.getElementById("login").style.WebkitAnimation = "";
+	document.getElementById("login").style.animation = "";
 }

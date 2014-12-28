@@ -1,38 +1,138 @@
+<!DOCTYPE html>
 <html>
 	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+		<link rel=stylesheet type="text/css" href="./css/main.css">
+		<link rel=stylesheet type="text/css" href="./css/animation.css">
 	</head>
 	<body>
-		<div id="LoginPage">
-			<form id="LoginForm" method="post">
-				<a>E-mail : </a><input type="text" name="Email"><br/>
-				<a>Password : </a><input type="text" name="Password"><br/>
-				<input type="submit" value="Login">
-			</form>
-			<a>Register</a><br/>
-			<a>Forgot Password</a><br/>
+		<div id="header">
+			<a class="title_text" href="#">Issue Tracking System</a>
+			<div class="right_option_block">
+				<a class="right_option" href="#">+ New Issue</a>
+				<a class="right_option" href="#">Logout</a>
+				<a class="right_option" href="#">About</a>
+			</div>
 		</div>
-		<div id="RegisterPage">
-			<form id="RegisterForm" method="post">
-				<a>E-mail : </a><input type="text" name="Email"><br/>
-				<a>Password : </a><input type="text" name="Password"><br/>
-				<a>Confirm Password : </a><input type="text" name="ConfirmPassword"><br/>
-				<a>Captcha : </a><input type="text" name="Captcha"><img src=""><br/>
-				<img style="background-color:#000000; width:100px; height:50px;"><br/>
-				<input type="submit" value="Register">
-			</form><br/>
+		<div class="spinner_block" hidden="none">
+			<div class="spinner"></div>
 		</div>
-		<div id="ForgotPasswordPage">
-			<form id="RegisterForm" method="post">
-				<a>E-mail : </a><input type="text" name="Email"><br/>
-				<a>Captcha : </a><input type="text" name="Captcha"><img src=""><br/>
-				<img style="background-color:#000000; width:100px; height:50px;"><br/>
-				<input type="submit" value="Send Email">
-			</form><br/>
+		<div id="login">
+			<div id="statement">
+				<h1>Issue Tracking System</h1>
+				<p>Manage Project's Issues.An Issue Tracking System is eazy to depoly, use and register.</p>
+			</div>
+			<div class="register_form">
+				<input id="register_email" class="input"></br>
+				<input id="register_password" class="input"></br>
+				<button id="register_button">Register</button>
+			</div>
+			<div class="login_form">
+				<input id="login_email" class="input"></br>
+				<input id="login_password" class="input"></br>
+				<button id="login_button">Login</button>
+			</div>
 		</div>
-		<div id="EditArea">
-
+		<div id="side_bar">
+			<ul class="side_option">
+				<li class="selected_sdie_option">All</li>
+				<li>Other</li>
+			</ul>
 		</div>
-		<div id="ShowArea">
+		<div id="content">
+			<div class="page">
+				<table class="custom_table">
+				   <tbody>
+				     <tr>
+				       <th>Title</th>
+				       <th>State</th>
+				       <th>Priority</th>
+				       <th>Date of occurrence</th>
+				       <th>Date of expectation</th>
+				       <th>Date of finish</th>
+				     </tr>
+				     <tr>
+				       <td>內容部份1</td>
+				       <td>內容部份2</td>
+				       <td>內容部份3</td>
+				       <td>內容部份4</td>
+				       <td>內容部份5</td>
+				       <td>內容部份6</td>
+				     </tr>
+				     <tr>
+				       <td>內容部份1</td>
+				       <td>內容部份2</td>
+				       <td>內容部份3</td>
+				       <td>內容部份4</td>
+				       <td>內容部份5</td>
+				       <td>內容部份6</td>
+				     </tr>
+				   </tbody>
+				 </table>
+				 	a</br>
+					a</br>
+					a</br>
+					a</br>
+					a</br>
+					a</br>
+					a</br>
+					a</br>
+					a</br>
+					a</br>
+					a</br>
+					a</br>
+					a</br>
+					a</br>
+					a</br>
+					a</br>
+					a</br>
+					a</br>
+					a</br>
+					a</br>
+					a</br>
+					a</br>
+					a</br>
+					a</br>
+					a</br>
+					a</br>
+					a</br>
+					a</br>
+					a</br>
+					a</br>
+					a</br>
+					a</br>
+					a</br>
+					a</br>
+					a</br>
+					a</br>
+					a</br>
+					a</br>
+					a</br>
+					a</br>
+					a</br>
+					a</br>
+					a</br>
+					a</br>
+					a</br>
+					a</br>
+					a</br>
+					a</br>
+					a</br>
+					a</br>
+					a</br>
+					a</br>
+					a</br>
+					a</br>
+					a</br>
+					a</br>
+					a</br>
+					a</br>
+					a</br>
+			</div>
 		</div>
+		
+		<script src="./js/jquery.min.js"></script>
+		<script src="./js/bootstrap.min.js"></script>
+		<script src="./src/controller.js"></script>
 	</body>
 </html>

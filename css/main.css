@@ -1,0 +1,203 @@
+/*整體框架的設定*/
+html body{
+	position: absolute;
+	width:100%;
+	height:100%;
+	overflow:hidden;/*上下左右內容超過框架則不顯示*/
+	margin:0px 0px 0px 0px; /*避免網頁留白*/
+}
+/*網頁標頭的設定*/
+#header{
+	position: fixed;/*固定在上方*/
+	width:100%;
+	height:50px;
+	overflow:hidden;
+	background:#222222;
+	z-index: 99;/*標頭在最上面*/
+}
+/*登入頁面的設定*/
+#login{
+	position: fixed;
+	width:100%;
+	height:100%;
+	margin-top: 50px;
+	background:#333333;
+	/*background:url('image.png');/*放圖片*/
+	/*background-size: cover;/*背影圖片延展*/
+	/*background-position: center;/*背景圖片置中*/  
+	z-index: 98;/*除了標頭都可覆蓋*/
+}
+/*左邊固定選單區塊設定*/
+#side_bar{
+	position: fixed;/*固定在左方*/
+	width:300px;
+	height:100%;
+	margin-top: 50px;
+	background:#F5F5F5;
+	overflow-x:hidden;
+	z-index: 97;/*次於login畫面*/
+}
+/*右下區塊內容設定*/
+#content{
+	position: relative;
+	overflow-y:scroll;/*內容大於框架可以滑動*/
+	margin-top: 50px;/*避免被標頭固定區塊蓋到*/
+	margin-left: 300px;/*避免被左側選單固定區塊蓋到*/
+	width: calc(100% - 300px);/*計算全部寬度簡上固定寬度*/
+	height:100%;
+}
+/*上方功能列，左方標題的設定*/
+.title_text{
+	position: relative;
+	height:100%;
+	float: left;/*從左側開始排*/
+	padding-top: 15px;
+	padding-left: 15px; 
+	color:#9D9D9D;
+	font-family:"Helvetica Neue",Helvetica,Arial,sans-serif,"Microsoft JhengHei";/*英文好看的字型，還不錯*/
+	font-size: 18px;
+	text-decoration: none;/*有連結時不顯示底線*/
+}
+/*上方功能列，左方標題滑鼠上移的設定*/
+.title_text:hover {
+    color:#FFFFFF;
+}
+/*上方功能列，右方按鈕滑鼠上移的設定*/
+.right_option:hover {
+    color:#FFFFFF;
+}
+/*選項未被選取，滑鼠移上時的反應*/
+.side_option li:hover {
+    background-color: #EEEEEE;
+    color:#337AB7;
+}
+/*選項已被選取，滑鼠移上時的反應*/
+.side_option .selected_sdie_option:hover{
+	background-color: #428BCA;
+	color:#FFFFFF;
+}
+/*上方功能列，右邊按鈕區塊的設定*/
+.right_option_block{
+	position: relative;
+	height:100%;
+	float: right;
+	overflow:hidden;
+}
+/*上方功能列，每個按鈕的設定*/
+.right_option{
+	position: relative;
+	height:100%;
+	float: left;
+	padding-top: 17px;
+	padding-right: 22px; 
+	color:#9D9D9D;
+	font-family:"Helvetica Neue",Helvetica,Arial,sans-serif,"Microsoft JhengHei";
+	font-size: 15px;
+	text-decoration: none;
+}
+/*左邊選單，列表框架的設定*/
+.side_option{
+	padding:0px 0px 0px 0px;
+}
+/*左邊選單，列表框架內的li設定*/
+.side_option li{
+	list-style-type: none;/*不顯示列表的dot符號*/
+	width:100%;
+	height:30px;
+	color:#337AB7;
+	font-family:"Helvetica Neue",Helvetica,Arial,sans-serif,"Microsoft JhengHei";
+	cursor: pointer;/*滑鼠移上時，會變成手指符號*/
+	font-size: 15px;
+	padding:8px 0px 0px 18px;
+}
+/*左邊選單框架內，被選擇的選項的設定*/
+.side_option .selected_sdie_option{
+	background-color: #428BCA;
+	color:#FFFFFF;
+}
+#statement {
+	position: relative;
+	width:30%;
+	margin-top: 6%;
+	margin-top: 6%;
+	margin-left: 10%;
+}
+#statement h1,p{
+	width:auto;
+	color:#FFFFFF;
+	text-align: center;
+	font-family:"Helvetica Neue",Helvetica,Arial,sans-serif,"Microsoft JhengHei";
+}
+#statement h1{
+	font-size: 36px;
+}
+#statement p{
+	font-size: 21px;
+}
+.input{
+	border-radius:5px;
+	height:30px;
+	font-size: 21px;
+	outline:0;
+	border:3px solid #CCCCCC;
+}
+.input:focus{
+	border:3px solid #66AFE9;
+	box-shadow: 0px 0px 3px 3px rgba(6,106,254,0.5);
+}
+.custom_table{
+	/*border-collapse: separate;*/
+	border-spacing: 0; /*設定每格上下左右的間隔*/
+	height: 120px; 
+	width: 100%;
+	text-align: left;
+	font-family:"Helvetica Neue",Helvetica,Arial,sans-serif,"Microsoft JhengHei";
+	color:#333333;
+	/*overflow:hidden;*/
+}
+.custom_table tr:first-child th:first-child { 
+	border-top-left-radius: 3px; 
+	cursor: pointer;/*滑鼠移上時，會變成手指符號*/
+	color:#FFFFFF;
+}
+.custom_table tr:first-child th:last-child { 
+	border-top-right-radius: 3px; 
+}
+.custom_table tr:last-child td:first-child { 
+	border-bottom-left-radius: 3px; 
+}
+.custom_table tr:last-child td:last-child { 
+	border-bottom-right-radius: 3px; 
+}
+.custom_table tr:first-child{ 
+	background-color: #337AB7; 
+	color:#FFFFFF;
+	/*font-weight: bold;*/
+}
+.custom_table tr:last-child td{ 
+	border-bottom: 1px solid #337AB7; 
+}
+.custom_table tr td:first-child{ 
+	cursor: pointer;/*滑鼠移上時，會變成手指符號*/
+	border-left: 1px solid #337AB7; 
+	color:#31708F;
+	font-weight: bold;
+}
+.custom_table tr td:last-child{ 
+	border-right: 1px solid #337AB7;
+}
+.custom_table tr td{
+	padding: 10px 10px 10px 10px;/*留白*/
+}
+.custom_table tr th{
+	padding: 10px 10px 10px 10px;/*留白*/
+}
+.custom_table tr td:first-child:hover{ 
+	background:#F5F5F5;
+}
+.page{
+	width: auto;
+	height: auto; 
+	padding: 30px 30px 30px 30px;/*留白*/
+	/*background-color: #FFFF00;*/
+}

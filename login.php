@@ -17,16 +17,19 @@
 		$select_salt = $pdo->prepare('SELECT salt FROM login WHERE email=? LIMIT 1');
 		$select_salt->bindParam(1,$account);
 		//TODO $select_salt->bindValue(":Id",'0');
-		$select_salt->execute();
-		$salt = $select_salt->fetchAll()[0]['salt'];
-		$password_sha1 = sha1($password."".$salt,false);
-		//比對是否正確
-		$select_salt = $pdo->prepare('SELECT id FROM login WHERE email=? AND password=? LIMIT 1');
-		$select_salt->bindParam(1,$account);
-		$select_salt->bindParam(2,$password_sha1);
-		//TODO $select_salt->bindValue(":Id",'0');
-		$select_salt->execute();
-		$result = $select_salt->fetchAll();
+		$salt_check = $select_salt->execute();
+		$salt_result = $select_salt->fetchAll();
+		if(count($salt_result)==1){
+			$salt = $salt_result[0]['salt'];
+			$password_sha1 = sha1($password."".$salt,false);
+			//比對是否正確
+			$select_salt = $pdo->prepare('SELECT id FROM login WHERE email=? AND password=? LIMIT 1');
+			$select_salt->bindParam(1,$account);
+			$select_salt->bindParam(2,$password_sha1);
+			//TODO $select_salt->bindValue(":Id",'0');
+			$select_salt->execute();
+			$result = $select_salt->fetchAll();
+		}
 	}
 
 	$check &= (count($result) == 1);

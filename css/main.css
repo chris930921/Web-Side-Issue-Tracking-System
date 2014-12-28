@@ -201,3 +201,10 @@ html body{
 	padding: 30px 30px 30px 30px;/*留白*/
 	/*background-color: #FFFF00;*/
 }
+.text{
+	height: 30px; 
+	font-size: 21px;
+	color:#FFFFFF;
+	text-align: left;
+	font-family:"Helvetica Neue",Helvetica,Arial,sans-serif,"Microsoft JhengHei";
+}

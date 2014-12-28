@@ -4,9 +4,13 @@
 	$check = true;
 	$check &= isset($_POST['email']);
 	$check &= isset($_POST['password']);
+	if(strlen($_POST['email']) == 0 & strlen($_POST['password']) == 0){
+		exit(json_encode(array("state" =>false, "message"=>"Email or Password is empty.")));
+	}
 
 	$result = false;
 	if($check){
+
 		//限制長度
 		$account = substr($_POST['email'],0,30);
 		$password = substr($_POST['password'],0,20);
@@ -24,7 +28,6 @@
 		$insert_account->bindParam(2,$password_sha1);
 		$insert_account->bindParam(3,$salt);
 		$result = $insert_account->execute();
-		var_dump($result);
 	}
 	$check &= $result;
 	if($check){

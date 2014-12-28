@@ -10,11 +10,11 @@
 			<a class="title_text" href="#">Issue Tracking System</a>
 			<div class="right_option_block">
 				<a class="right_option" href="#">+ New Issue</a>
-				<a class="right_option" href="#">Logout</a>
+				<a id="logout_button"class="right_option" href="#">Logout</a>
 				<a class="right_option" href="#">About</a>
 			</div>
 		</div>
-		<div class="spinner_block" hidden="none">
+		<div id="load_spinner" class="spinner_block">
 			<div class="spinner"></div>
 		</div>
 		<div id="login">
@@ -26,11 +26,13 @@
 				<input id="register_email" class="input"></br>
 				<input id="register_password" class="input"></br>
 				<button id="register_button">Register</button>
+				<p id="register_text" class="text"></p>
 			</div>
 			<div class="login_form">
-				<input id="login_email" class="input"></br>
-				<input id="login_password" class="input"></br>
+				<input id="login_email" class="input" value="chris930921@gmail.com"></br>
+				<input id="login_password" class="input" value="123456"></br>
 				<button id="login_button">Login</button>
+				<p id="login_text" class="text"></p>
 			</div>
 		</div>
 		<div id="side_bar">

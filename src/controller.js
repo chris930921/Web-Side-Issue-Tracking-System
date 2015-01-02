@@ -6,6 +6,12 @@ window.onload = function(){
 
 function init(){
 	console.log("Jquery loaded.");
+	login_button_event();
+	register_button_event();
+	logout_button_event();
+
+}
+function login_button_event(){
 	var login = document.getElementById("login_button");
 	login.addEventListener("click",function(){
 		$.ajax({
@@ -37,9 +43,9 @@ function init(){
 		  },
 		  dataType: "json"
 		});
-
 	});
-	
+}
+function register_button_event(){
 	var register = document.getElementById("register_button");
 	register.addEventListener("click",function(){
 		$.ajax({
@@ -58,7 +64,9 @@ function init(){
 		  },
 		  dataType: "json"
 		});
-	});
+	});	
+}
+function logout_button_event(){
 	var logout = document.getElementById("logout_button");
 	logout.addEventListener("click",function(){
 		document.cookie='{}';

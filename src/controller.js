@@ -86,6 +86,36 @@ function logined(){
 	for(var i = 0; i<elements.length; i++){
 		elements[i].style.visibility='visible';
 	}
+	$.ajax({
+		  type: "POST",
+		  url: "./issue_list.php",
+		  data: {
+		  	token : JSON.parse(document.cookie).token
+		  },
+		  success: function(data){
+		  	var content_tr = '';
+		  	for(var i = 0;;i++){
+		  		try{
+		  			content = '<td value=' + data[i].id + '>'+data[i].title+'</td>'
+		  				+'<td>'+data[i].state+'</td>'
+		  				+'<td>'+data[i].priority+'</td>'
+		  				+'<td>'+data[i].occurency_date+'</td>'
+		  				+'<td>'+data[i].expectation_date+'</td>'
+		  				+'<td>'+data[i].finished_date+'</td>';
+		  			content_tr += '<tr>'+content+'</tr>';
+		  		}catch(err){
+		  			console.log('跳出issue讀取迴圈');
+		  			break;
+		  		}
+		  	}
+		  	var table_title = document.getElementById("table_content").children[0].innerHTML;
+		  	document.getElementById("table_content").innerHTML = table_title + content_tr;
+		  },
+		  error: function(jqXHR, textStatus, errorThrown){
+		  	console.log('載入issue列表失敗: '+errorThrown);
+		  },
+		  dataType: "json"
+	});
 }
 function hidden(){
 	document.getElementById("load_spinner").style.visibility='hidden';

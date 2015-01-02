@@ -44,7 +44,7 @@ html body{
 	margin-top: 50px;/*避免被標頭固定區塊蓋到*/
 	margin-left: 300px;/*避免被左側選單固定區塊蓋到*/
 	width: calc(100% - 300px);/*計算全部寬度簡上固定寬度*/
-	height:100%;
+	height: calc(100% - 50px);;
 }
 /*上方功能列，左方標題的設定*/
 .title_text{
@@ -196,9 +196,11 @@ html body{
 	background:#F5F5F5;
 }
 .page{
+	position: fixed;
 	width: auto;
 	height: auto; 
 	padding: 30px 30px 30px 30px;/*留白*/
+	visibility:hidden;
 	/*background-color: #FFFF00;*/
 }
 .text{

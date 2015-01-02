@@ -9,7 +9,9 @@ function init(){
 	login_button_event();
 	register_button_event();
 	logout_button_event();
-
+	new_issue_event();
+	manage_button_event();
+	issue_list_event();
 }
 function login_button_event(){
 	var login = document.getElementById("login_button");
@@ -78,7 +80,26 @@ function logout_button_event(){
 		hidden();
 	});
 }
+function new_issue_event(){
+	var new_issue = document.getElementById("new_issue_button");
+	new_issue.addEventListener("click",function(){
+		open_page("new_issue_page");
+	});
+}
+function manage_button_event(){
+	var manage_issue = document.getElementById("manage_issue_button");
+	manage_issue.addEventListener("click",function(){
+		open_page("manage_issue_page");
+	});
+}
+function issue_list_event(){
+	var issue_list = document.getElementById("issue_list_button");
+	issue_list.addEventListener("click",function(){
+		open_page("issue_list_page");
+	});
+}
 function logined(){
+	open_page("issue_list_page");
 	document.getElementById("login").style.WebkitAnimation = "close_login 1s 1";
 	document.getElementById("login").style.animation = "close_login 1s 1";
 	document.getElementById("login").addEventListener("webkitAnimationEnd", logined_animation_end, false);
@@ -86,6 +107,28 @@ function logined(){
 	for(var i = 0; i<elements.length; i++){
 		elements[i].style.visibility='visible';
 	}
+	init_issue_list_page();
+}
+function hidden(){
+	document.getElementById("load_spinner").style.visibility='hidden';
+	var elements = document.getElementsByClassName('right_option');
+	for(var i = 0; i<elements.length; i++){
+		elements[i].style.visibility='hidden';
+	}
+}
+function logined_animation_end(){
+	document.getElementById("login").style.visibility = "hidden";
+	document.getElementById("login").style.WebkitAnimation = "";
+	document.getElementById("login").style.animation = "";
+}
+function open_page(page_name){
+	var pages = document.getElementsByClassName("page");
+	for(var i = 0; i < pages.length ; i++){
+		pages[i].style.visibility='hidden';
+	}
+	document.getElementById(page_name).style.visibility='visible';
+}
+function init_issue_list_page(){
 	$.ajax({
 		  type: "POST",
 		  url: "./issue_list.php",
@@ -108,24 +151,18 @@ function logined(){
 		  			break;
 		  		}
 		  	}
-		  	var table_title = document.getElementById("table_content").children[0].innerHTML;
-		  	document.getElementById("table_content").innerHTML = table_title + content_tr;
+		  	var table_content = document.getElementById("table_content");
+		  	var table_title = table_content.children[0].innerHTML;
+		  	table_content.innerHTML = table_title + content_tr;
+		  	for(var i = 1; i < table_content.children.length; i++ ){
+		  		table_content.children[i].addEventListener("click",function(){
+		  			open_page("show_issue_page");
+		  		});
+		  	}
 		  },
 		  error: function(jqXHR, textStatus, errorThrown){
 		  	console.log('載入issue列表失敗: '+errorThrown);
 		  },
 		  dataType: "json"
 	});
-}
-function hidden(){
-	document.getElementById("load_spinner").style.visibility='hidden';
-	var elements = document.getElementsByClassName('right_option');
-	for(var i = 0; i<elements.length; i++){
-		elements[i].style.visibility='hidden';
-	}
-}
-function logined_animation_end(){
-	document.getElementById("login").style.visibility = "hidden";
-	document.getElementById("login").style.WebkitAnimation = "";
-	document.getElementById("login").style.animation = "";
 }

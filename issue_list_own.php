@@ -18,11 +18,12 @@
 	$sql = 'SELECT user_id FROM ajax_final_web.token WHERE token = ?;';
 	$statement = $pdo->prepare($sql);
 	$statement->bindParam(1, $token);
-
 	is_excute_success($statement->execute());
 	$result = is_no_result($statement->fetchAll());
 	$own_id = $result[0]['user_id'];
+	$statement->closeCursor();
 
+	//get issue
 	$sql = 'SELECT' 
 	.' ticket_issue.id,' 
 	.' ticket_issue.title,' 
@@ -45,7 +46,8 @@
 	
 	is_excute_success($statement->execute());
 	$result = is_no_result($statement->fetchAll());
-
+	$statement->closeCursor();
+	
 	$result['state'] = true;
 	echo json_encode($result);
 

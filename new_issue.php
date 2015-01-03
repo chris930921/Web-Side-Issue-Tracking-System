@@ -15,35 +15,35 @@
 	$pdo = connect_database();
 	//get token
 	$sql = 'SELECT user_id FROM ajax_final_web.token WHERE token = ?;';
-	$insert_account = $pdo->prepare($sql);
-	$insert_account->bindParam(1, $token);
-	is_excute_success($insert_account->execute());
-	$result = is_no_result($insert_account->fetchAll());
+	$statement = $pdo->prepare($sql);
+	$statement->bindParam(1, $token);
+	is_excute_success($statement->execute());
+	$result = is_no_result($statement->fetchAll());
 	$publisher_id = $result[0]['user_id'];
 
 	//insert issue info
 	$sql = 'INSERT INTO `ajax_final_web`.`ticket_issue` (
 		`publisher_id`,`title`,`content`,`state`,`priority`
 		) VALUES (?, ?, ?, ?, ?);';
-	$insert_account = $pdo->prepare($sql);
-	$insert_account->bindParam(1, $publisher_id);
-	$insert_account->bindParam(2, $title);
-	$insert_account->bindParam(3, $content);
-	$insert_account->bindParam(4, $state);
-	$insert_account->bindParam(5, $priority);
+	$statement = $pdo->prepare($sql);
+	$statement->bindParam(1, $publisher_id);
+	$statement->bindParam(2, $title);
+	$statement->bindParam(3, $content);
+	$statement->bindParam(4, $state);
+	$statement->bindParam(5, $priority);
 
-	is_excute_success($insert_account->execute());
+	is_excute_success($statement->execute());
 	$issue_id = $pdo->lastInsertId();
 
 	//insert issue schedule
 	$sql = 'INSERT INTO `ajax_final_web`.`schedule_issue`(
 		`ticket_id`,`occurency_date`,`expectation_date`
 		) VALUES ( ? ,CURRENT_TIMESTAMP, FROM_UNIXTIME(?) );';
-	$insert_account = $pdo->prepare($sql);
-	$insert_account->bindParam(1, $issue_id);
-	$insert_account->bindParam(2, $expectation);
+	$statement = $pdo->prepare($sql);
+	$statement->bindParam(1, $issue_id);
+	$statement->bindParam(2, $expectation);
 
-	$result = is_excute_success($insert_account->execute());
+	$result = is_excute_success($statement->execute());
 	//show api
 	echo json_encode(array('state'=>$result));
 

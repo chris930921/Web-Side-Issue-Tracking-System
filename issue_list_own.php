@@ -14,7 +14,16 @@
 	$pdo->query('SET NAMES "UTF8"');
 	$pdo->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
 
-	$select_sql = 'SELECT' 
+	//get token
+	$sql = 'SELECT user_id FROM ajax_final_web.token WHERE token = ?;';
+	$statement = $pdo->prepare($sql);
+	$statement->bindParam(1, $token);
+
+	is_excute_success($statement->execute());
+	$result = is_no_result($statement->fetchAll());
+	$own_id = $result[0]['user_id'];
+
+	$sql = 'SELECT' 
 	.' ticket_issue.id,' 
 	.' ticket_issue.title,' 
 	.' states.name as state,' 
@@ -28,19 +37,26 @@
 	.' LEFT JOIN states ON states.id = ticket_issue.state'
 	.' LEFT JOIN priorities ON priorities.id = ticket_issue.priority'
 
-	.' WHERE ? IN (SELECT token FROM ajax_final_web.token) 
+	.' WHERE ticket_issue.publisher_id = ?
 		ORDER BY schedule_issue.occurency_date ASC;';
 
-	$insert_account = $pdo->prepare($select_sql);
-	$insert_account->bindParam(1,$token);
+	$statement = $pdo->prepare($sql);
+	$statement->bindParam(1,$own_id);
 	
-	$execute_fail = !$insert_account->execute();
-	if($execute_fail)	
-		exit(json_encode(array("state" =>false, "message"=>"Database execute fail.")));
-
-	$result = $insert_account->fetchAll();
-	if(count($result) == 0 ) 
-		exit(json_encode(array("state" =>false, "message"=>"You don't have permission to access.")));
+	is_excute_success($statement->execute());
+	$result = is_no_result($statement->fetchAll());
 
 	$result['state'] = true;
 	echo json_encode($result);
+
+	function is_excute_success($execute_result){
+		$execute_fail = !$execute_result;
+		if($execute_fail)	
+			exit(json_encode(array("state" =>false, "message"=>"Database execute fail.")));
+		return $execute_result;
+	}
+	function is_no_result($result){
+		if(count($result) == 0) 
+			exit(json_encode(array("state" =>false, "message"=>"You don't have permission to access.")));
+		return $result;
+	}

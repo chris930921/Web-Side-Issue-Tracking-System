@@ -155,7 +155,8 @@ function init_issue_list_page(){
 		  	var table_title = table_content.children[0].innerHTML;
 		  	table_content.innerHTML = table_title + content_tr;
 		  	for(var i = 1; i < table_content.children.length; i++ ){
-		  		table_content.children[i].addEventListener("click",function(){
+		  		var row = table_content.children[i];
+		  		row.children[0].addEventListener("click",function(){
 		  			open_page("show_issue_page");
 		  		});
 		  	}

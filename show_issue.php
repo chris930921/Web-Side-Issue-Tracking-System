@@ -4,7 +4,11 @@
 	if(isset($_POST['token']) == false)	
 		exit(json_encode(array("state" =>false, "message"=>"Token is not post.")));
 	
+	if(isset($_POST['issue_id']) == false)	
+		exit(json_encode(array("state" =>false, "message"=>"Issue Id is not post.")));
+
 	$token = substr($_POST['token'],0,40);
+	$issue_id = substr($_POST['issue_id'],0,10);
 	if(strlen($_POST['token']) != 40)	
 		exit(json_encode(array("state" =>false, "message"=>"Token is not valid.")));
 
@@ -33,9 +37,9 @@
 	$insert_account = $pdo->prepare($select_sql);
 	$insert_account->bindParam(1,$token);
 	
-	$execute_fail = !$insert_account->execute();
-	if($execute_fail)	
-		exit(json_encode(array("state" =>false, "message"=>"Database execute fail.")));
+	$search_fail = !$insert_account->execute();
+	if($search_fail)	
+		exit(json_encode(array("state" =>false, "message"=>"Search fail.")));
 
 	$result = $insert_account->fetchAll();
 	if(count($result) == 0 ) 

@@ -18,6 +18,7 @@ function init(){
 	list_new_button_event();
 	list_chrage_button_event();
 	list_finished_button_event();
+	message_finish_button_event();
 }
 function login_button_event(){
 	var login = document.getElementById("login_button");
@@ -210,6 +211,31 @@ function finish_issue_button_event(){
 		});	
 	});
 }
+function message_finish_button_event(){
+	document.getElementById("message_finish_button").addEventListener("click",function(e){
+		$.ajax({
+			  type: "POST",
+			  url: "./new_message.php",
+			  data: {
+			  	token : JSON.parse(document.cookie).token,
+				issue_id : e.target.value,
+				message : document.getElementById("input_message").value
+			  },
+			  success: function(data){
+			  	if(data.state){
+		  			open_page("show_issue_page");
+		  			init_show_issue_page(e.target.value);
+			  	}else{
+			  		alert(data.message);
+			  	}
+			  },
+			  error: function(jqXHR, textStatus, errorThrown){
+			  	console.log('載入issue列表失敗: '+errorThrown);
+			  },
+			  dataType: "json"
+		});	
+	});
+}
 function logined(){
 	open_page("issue_list_page");
 	document.getElementById("login").style.WebkitAnimation = "close_login 1s 1";
@@ -295,6 +321,10 @@ function init_show_issue_page(issue_id){
 		  },
 		  success: function(data){
 		  	try{
+		  		document.getElementById("message_list").innerHTML = '';
+		  		document.getElementById("input_message").value = '';
+		  		document.getElementById("message_finish_button").value = issue_id;
+
 		  		document.getElementById("charge_button").style.display = "none";
 		  		document.getElementById("charge_button").value = issue_id;
 		  		document.getElementById("finish_issue_button").style.display = "none";
@@ -316,6 +346,15 @@ function init_show_issue_page(issue_id){
 		  			}
 		  		}else if(data.is_charge == false & data.finished_date=='0000-00-00 00:00:00'){
 		  			document.getElementById("charge_button").style.display = "block";
+		  		}
+		  	}catch(err){
+		  		console.log(err);
+	  			console.log(data.message);
+		  	}
+		  	try{
+		  		for(var i = 0;;i++){
+		  			var message = '<div><p>'+data.message[i].email+'</p>'+data.message[i].message+'</div>';
+		  			document.getElementById("message_list").innerHTML += message;
 		  		}
 		  	}catch(err){
 		  		console.log(err);

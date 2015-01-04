@@ -11,6 +11,14 @@
 	$pdo->query('SET NAMES "UTF8"');
 	$pdo->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
 
+	//get token
+	$sql = 'SELECT user_id FROM ajax_final_web.token WHERE token = ?;';
+	$statement = $pdo->prepare($sql);
+	$statement->bindParam(1, $token);
+	is_excute_success($statement->execute());
+	$result = is_no_result($statement->fetchAll());
+	$current_user_id = $result[0]['user_id'];
+
 	//get issue
 	$sql = 'SELECT 
 	 ticket_issue.id, 
@@ -66,6 +74,7 @@
 		$result = $statement->fetchAll();
 		$statement->closeCursor();
 		$view['charge_name'] = $result[0]['email'];
+		$view['is_charge_owner'] = ($view['charge_id'] == $current_user_id);
 	}
 
 	echo json_encode($view);

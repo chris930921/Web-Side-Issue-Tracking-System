@@ -213,6 +213,9 @@ function init_show_issue_page(issue_id){
 		  },
 		  success: function(data){
 		  	try{
+		  		document.getElementById("charge_button").style.display = "none";
+		  		document.getElementById("finish_issue_button").style.display = "none";
+
 		  		document.getElementById("show_title").innerHTML = data.title;
 		  		document.getElementById("show_Publisher").innerHTML = data.publisher_name;
 		  		document.getElementById("show_state").innerHTML = data.state;
@@ -222,8 +225,14 @@ function init_show_issue_page(issue_id){
 		  		document.getElementById("show_finish").innerHTML = data.finished_date;
 		  		document.getElementById("show_content").innerHTML = data.content;
 		  		document.getElementById("show_person_in_charge").innerHTML = '';
-		  		if(data.is_charge)
+		  		if(data.is_charge){
 		  			document.getElementById("show_person_in_charge").innerHTML = data.charge_name;
+		  			if(data.is_charge_owner & data.finished_date=='0000-00-00 00:00:00'){
+		  				document.getElementById("finish_issue_button").style.display = "block";
+		  			}
+		  		}else if(data.is_charge == false & data.finished_date=='0000-00-00 00:00:00'){
+		  			document.getElementById("charge_button").style.display = "block";
+		  		}
 		  	}catch(err){
 		  		console.log(err);
 	  			console.log(data.message);

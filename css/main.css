@@ -118,8 +118,7 @@ html body{
 #statement {
 	position: relative;
 	width:30%;
-	margin-top: 6%;
-	margin-top: 6%;
+	margin-top: 5%;
 	margin-left: 10%;
 }
 #statement h1,p{
@@ -302,4 +301,17 @@ html body{
 
 .blue:hover {
   background-color: #6FC6FF;
+}
+.register_input {
+	width: 60%;
+	height: 50px;
+	margin-top: 20px;
+	margin-bottom: 20px;
+	margin-left: 10%;
+}
+.login_input {
+	width: 60%;
+	height: 50px;
+	margin-bottom: 20px;
+	margin-left: 10%;
 }

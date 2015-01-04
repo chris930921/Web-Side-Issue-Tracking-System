@@ -90,6 +90,7 @@ function manage_button_event(){
 	var manage_issue = document.getElementById("manage_issue_button");
 	manage_issue.addEventListener("click",function(){
 		open_page("manage_issue_page");
+		init_manage_issue_page();
 	});
 }
 function issue_list_event(){
@@ -97,6 +98,7 @@ function issue_list_event(){
 	issue_list.addEventListener("click",function(){
 		open_page("issue_list_page");
 	});
+	init_issue_list_page();
 }
 function logined(){
 	open_page("issue_list_page");
@@ -195,6 +197,78 @@ function init_show_issue_page(issue_id){
 		  	}catch(err){
 		  		console.log(err);
 	  			console.log(data.message);
+		  	}
+		  },
+		  error: function(jqXHR, textStatus, errorThrown){
+		  	console.log('載入issue列表失敗: '+errorThrown);
+		  },
+		  dataType: "json"
+	});
+}
+function init_manage_issue_page(){
+	$.ajax({
+		  type: "POST",
+		  url: "./issue_list_own.php",
+		  data: {
+		  	token : JSON.parse(document.cookie).token
+		  },
+		  success: function(data){
+		  	var ids = [];
+		  	var content_tr = '';
+		  	console.log(data);
+		  	for(var i = 0;;i++){
+		  		try{
+		  			var button = document.createElement("BUTTON");
+		  			button.value = data[i].id;
+		  			button.innerHTML = 'delete';
+		  			content = '<td><p hidden>'+data[i].id+'</p>'+data[i].title+'</td>'
+		  				+'<td>'+data[i].state+'</td>'
+		  				+'<td>'+data[i].priority+'</td>'
+		  				+'<td>'+data[i].occurency_date+'</td>'
+		  				+'<td>'+data[i].expectation_date+'</td>'
+		  				+'<td>'+data[i].finished_date+'</td>'
+		  				+'<td>'+button.outerHTML+'</td>';
+		  			content_tr += '<tr>'+content+'</tr>';
+		  		}catch(err){
+		  			console.log('跳出issue讀取迴圈');
+		  			break;
+		  		}
+		  	}
+		  	var table_content = document.getElementById("manage_list");
+		  	var table_title = table_content.children[0].innerHTML;
+		  	table_content.innerHTML = table_title + content_tr;
+		  	for(var i = 1; i < table_content.children.length; i++ ){
+		  		var row = table_content.children[i];
+		  		row.children[0].addEventListener("click",function(e){
+		  			var id = e.target.children[0].innerHTML;
+		  			console.log('issue的id : ' + id);
+		  			open_page("show_issue_page");
+		  			init_show_issue_page(id);
+		  		});
+		  		row.children[6].addEventListener("click",function(e){
+		  			$.ajax({
+						  type: "POST",
+						  url: "./delete_issue.php",
+						  data: {
+						  	token : JSON.parse(document.cookie).token,
+						  	issue_id : e.target.value
+						  },
+						  success: function(data){
+						  	if(data.state){
+						  		console.log("delete success");
+						  		var delete_row = e.target.parentNode.parentNode
+						  		var table = delete_row.parentNode;
+						  		table.removeChild(delete_row);
+						  	}else{
+						  		console.log(data.message);
+						  	}
+						  },
+						  error: function(jqXHR, textStatus, errorThrown){
+						  	console.log('載入issue列表失敗: '+errorThrown);
+						  },
+						  dataType: "json"
+					});
+	  			});
 		  	}
 		  },
 		  error: function(jqXHR, textStatus, errorThrown){

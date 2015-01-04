@@ -13,6 +13,8 @@ function init(){
 	manage_button_event();
 	issue_list_event();
 	create_issue_button_event();
+	charge_button_event();
+	finish_issue_button_event();
 }
 function login_button_event(){
 	var login = document.getElementById("login_button");
@@ -101,7 +103,7 @@ function issue_list_event(){
 		init_issue_list_page();
 	});
 }
-function create_issue_button_event(issue_id){
+function create_issue_button_event(){
 	document.getElementById("create_issue_button").addEventListener("click",function(e){
 		$.ajax({
 			  type: "POST",
@@ -119,6 +121,54 @@ function create_issue_button_event(issue_id){
 			  		open_page("issue_list_page");
 					init_issue_list_page();
 			  		alert("Success Create Issue.");
+			  	}else{
+			  		alert(data.message);
+			  	}
+			  },
+			  error: function(jqXHR, textStatus, errorThrown){
+			  	console.log('載入issue列表失敗: '+errorThrown);
+			  },
+			  dataType: "json"
+		});	
+	});
+}
+function charge_button_event(){
+	document.getElementById("charge_button").addEventListener("click",function(e){
+		$.ajax({
+			  type: "POST",
+			  url: "./charge_issue.php",
+			  data: {
+			  	token : JSON.parse(document.cookie).token,
+			  	issue_id : e.target.value
+			  },
+			  success: function(data){
+			  	if(data.state){
+		  			open_page("show_issue_page");
+		  			init_show_issue_page(e.target.value);
+			  	}else{
+			  		alert(data.message);
+			  	}
+			  },
+			  error: function(jqXHR, textStatus, errorThrown){
+			  	console.log('載入issue列表失敗: '+errorThrown);
+			  },
+			  dataType: "json"
+		});	
+	});
+}
+function finish_issue_button_event(){
+	document.getElementById("finish_issue_button").addEventListener("click",function(e){
+		$.ajax({
+			  type: "POST",
+			  url: "./finish_issue.php",
+			  data: {
+			  	token : JSON.parse(document.cookie).token,
+				issue_id : e.target.value
+			  },
+			  success: function(data){
+			  	if(data.state){
+		  			open_page("show_issue_page");
+		  			init_show_issue_page(e.target.value);
 			  	}else{
 			  		alert(data.message);
 			  	}
@@ -214,7 +264,9 @@ function init_show_issue_page(issue_id){
 		  success: function(data){
 		  	try{
 		  		document.getElementById("charge_button").style.display = "none";
+		  		document.getElementById("charge_button").value = issue_id;
 		  		document.getElementById("finish_issue_button").style.display = "none";
+		  		document.getElementById("finish_issue_button").value = issue_id;
 
 		  		document.getElementById("show_title").innerHTML = data.title;
 		  		document.getElementById("show_Publisher").innerHTML = data.publisher_name;

@@ -1,11 +1,9 @@
 <?php
 	header("Content-Type:application/json");
-	
+
 	$token = checkAndEqual('token',40);
 	$issue_id = checkAndZero('issue_id',10);
-
 	$issue_id = to_number('issue_id',$issue_id);
-
 
 	//資料庫
 	$host_url = "mysql:host=localhost;port=6033;dbname=ajax_final_web";
@@ -18,38 +16,38 @@
 	$statement = $pdo->prepare($sql);
 	$statement->bindParam(1, $token);
 	is_excute_success($statement->execute());
-	$result = is_no_permission($statement->fetchAll());
-	$own_id = (int)$result[0]['user_id'];
+	$result = is_no_result($statement->fetchAll());
 	$statement->closeCursor();
+	$publisher_id = $result[0]['user_id'];
 
 	//check issue
-	$sql = 'SELECT * FROM ajax_final_web.ticket_issue WHERE ticket_issue.publisher_id = ? AND ticket_issue.id = ? ;';
+	$sql = 'SELECT * FROM ajax_final_web.ticket_issue WHERE ticket_issue.id = ? ;';
 	$statement = $pdo->prepare($sql);
-	$statement->bindParam(1, $own_id);
-	$statement->bindParam(2, $issue_id);
+	$statement->bindParam(1, $issue_id);
 	is_excute_success($statement->execute());
 	is_no_result($statement->fetchAll());
 	$statement->closeCursor();
 
-	//delete issue schedule
-	#$sql = 'SELECT user_id FROM ajax_final_web.token WHERE token = ?;';
-	$delete_sql = 'DELETE FROM ajax_final_web.schedule_issue WHERE schedule_issue.ticket_id = ? ;';
-	$statement = $pdo->prepare($delete_sql);
+	//check is charged
+	$sql = 'SELECT * FROM ajax_final_web.person_in_charge WHERE person_in_charge.ticket_id = ?;';
+	$statement = $pdo->prepare($sql);
 	$statement->bindParam(1, $issue_id);
 	is_excute_success($statement->execute());
+	$result = $statement->fetchAll();
 	$statement->closeCursor();
+	if(count($result) > 0) exit(json_encode(array("state" =>false, "message"=>"Issue is already charged.")));
 
-	//delete issue
-	$sql = 'DELETE FROM ajax_final_web.ticket_issue WHERE ticket_issue.publisher_id = ? AND ticket_issue.id = ? ;';
+	//insert charge person
+	$sql = 'INSERT INTO `ajax_final_web`.`person_in_charge`
+		(`ticket_id`,`publisher_id`)
+		VALUES (?, ?);';
 	$statement = $pdo->prepare($sql);
-	$statement->bindParam(1,$own_id);
-	$statement->bindParam(2,$issue_id);
+	$statement->bindParam(1, $issue_id);
+	$statement->bindParam(2, $publisher_id);
 	is_excute_success($statement->execute());
-	$statement->closeCursor();
 
-	$result = array();
-	$result['state'] = true;
-	echo json_encode($result);
+	$view = array("state" =>true);
+	echo json_encode($view);
 
 	function is_excute_success($execute_result){
 		$execute_fail = !$execute_result;

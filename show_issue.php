@@ -66,8 +66,6 @@
 		$statement->closeCursor();
 		$view['charge_name'] = $result[0]['email'];
 	}
-	var_dump($view);
-	exit();
 
 	echo json_encode($view);
 

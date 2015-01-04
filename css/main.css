@@ -196,11 +196,12 @@ html body{
 	background:#F5F5F5;
 }
 .page{
-	position: fixed;
-	width: auto;
+	position: relative;
+	width: 100%;
 	height: auto; 
 	padding: 30px 30px 30px 30px;/*留白*/
-	visibility:hidden;
+	display:none;
+	color:#000000;
 	/*background-color: #FFFF00;*/
 }
 .text{

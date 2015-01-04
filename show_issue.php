@@ -16,6 +16,7 @@
 	 ticket_issue.id, 
 	 ticket_issue.title,
 	 ticket_issue.publisher_id,
+	 ticket_issue.content,
 	 states.name as state, 
 	 priorities.name as priority,
 	 schedule_issue.occurency_date,

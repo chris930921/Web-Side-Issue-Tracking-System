@@ -226,7 +226,7 @@ html body{
 	color:#EFA53D;
 	font-size: 21px;
 }
-.input_block {
+.input_block{
     border: 1px solid #EFEFEF;
 	border-left: 6px solid #5CB85C; 
 	border-radius:5px;
@@ -243,15 +243,15 @@ html body{
 	color:#5CB85C;
 	font-size: 21px;
 }
-.message_block {
+.message_block div{
     border: 1px solid #EFEFEF;
 	border-left: 6px solid #5BC0DE; 
 	border-radius:5px;
-	padding: 10px 10px 10px 10px;
+	padding: 30px 30px 30px 30px;
 	margin-bottom:10px;
 	font-family:"Helvetica Neue",Helvetica,Arial,sans-serif,"Microsoft JhengHei";
 }
-.message_block p {
+.message_block div p {
 	width:30%;
 	float:left;
 	text-align: left;

@@ -77,6 +77,18 @@
 		$view['is_charge_owner'] = ($view['charge_id'] == $current_user_id);
 	}
 
+	//get message_list
+	$sql = 'SELECT login.email, message_ticket.message 
+		FROM ajax_final_web.message_ticket 
+		LEFT JOIN ajax_final_web.login ON login.id = message_ticket.publisher_id 
+		WHERE message_ticket.ticket_id = ?
+		ORDER BY message_ticket.comment_date ASC;';
+	$statement = $pdo->prepare($sql);
+	$statement->bindParam(1, $issue_id);
+	is_excute_success($statement->execute());
+	$view['message'] = $statement->fetchAll();
+	$statement->closeCursor();
+
 	echo json_encode($view);
 
 	function is_excute_success($execute_result){

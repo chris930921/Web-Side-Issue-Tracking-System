@@ -76,19 +76,27 @@
 				 </table>
 			</div>
 			<div id="new_issue_page" class="page">
-				Title:
-				<input id="new_title" class="input"></br>
-				Priority:
-				<select id="new_priority">
-				 	<option value="1" selected="selected">低</option>
-				 	<option value="2">中等</option>
-				 	<option value="3">高</option>
-				</select></br>
-				Date of expectation:
-				<input id="new_expectation" class="input"></br>
-				Content:
-				<input id="new_content" class="input"></br>
-				<button id="create_issue_button">完成</button>
+				<div class="input_block">
+					<p>Title:</p>
+					<input id="new_title" class="input">
+				</div>
+				<div class="input_block">
+					<p>Priority:</p>
+					<select id="new_priority">
+				 		<option value="1" selected="selected">低</option>
+				 		<option value="2">中等</option>
+				 		<option value="3">高</option>
+					</select>
+				</div>
+				<div class="input_block">
+					<p>Date of expectation:</p>
+					<input id="new_expectation" class="input">
+				</div>
+				<div class="input_block">
+					<p>Content:</p>
+					<input id="new_content" class="input">
+				</div>
+				<button id="create_issue_button" class="btn green">Create Issue</button>
 			</div>
 			<div id="manage_issue_page" class="page">
 				<table class="custom_table">
@@ -106,30 +114,48 @@
 				 </table>
 			</div>
 			<div id="show_issue_page" class="page">
-				<button id="charge_button">申請</button>
-				<button id="finish_issue_button">完成</button></br>
-				Title:
-				<div id="show_title"></div></br>
-				Publisher:
-				<div id="show_Publisher"></div></br>
-				Person in Charge:
-				<div id="show_person_in_charge"></div></br>
-				State:
-				<div id="show_state"></div></br>
-				Priority:
-				<div id="show_priority"></div></br>
-				Date of occurrence:
-				<div id="show_occurrence"></div></br>
-				Date of expectation:
-				<div id="show_expectation"></div></br>
-				Date of finish:
-				<div id="show_finish"></div></br>
-				Content:
-				<div id="show_content"></div></br>
+				<button id="charge_button" class="btn orange">Apply Issue</button>
+				<button id="finish_issue_button" class="btn orange">Finish Issue</button></br>
+				<div class="info_block">
+					<p>Title:</p>
+					<div id="show_title"></div>
+				</div>
+				<div class="info_block">
+					<p>Publisher:</p>
+					<div id="show_Publisher"></div>
+				</div>
+				<div class="info_block">
+					<p>Person in Charge:</p>
+					<div id="show_person_in_charge"></div>
+				</div>
+				<div class="info_block">
+					<p>State:</p>
+					<div id="show_state"></div>
+				</div>
+				<div class="info_block">
+					<p>Priority:</p>
+					<div id="show_priority"></div>
+				</div>
+				<div class="info_block">
+					<p>Date of occurrence:</p>
+					<div id="show_occurrence"></div>
+				</div>
+				<div class="info_block">
+					<p>Date of expectation:</p>
+					<div id="show_expectation"></div>
+				</div>
+				<div class="info_block">
+					<p>Date of finish:</p>
+					<div id="show_finish"></div>
+				</div>
+				<div class="info_block">
+					<p>Content:</p>
+					<div id="show_content"></div>
+				</div>
 				<div id="message_list">
 				</div>
-				<input id="input_message" class="input"></br>
-				<button id="message_finish_button">送出</button>
+				<input id="input_message" class="input" style="width:100%; margin-bottom:20px;"></br>
+				<button id="message_finish_button"  class="btn blue">Send Message</button>
 			</div>
 
 		</div>

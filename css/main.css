@@ -212,3 +212,77 @@ html body{
 	text-align: left;
 	font-family:"Helvetica Neue",Helvetica,Arial,sans-serif,"Microsoft JhengHei";
 }
+.info_block {
+    border: 1px solid #EFEFEF;
+	border-left: 6px solid #EFA53D; 
+	border-radius:5px;
+	padding: 10px 10px 10px 10px;
+	margin-bottom:10px;
+	font-family:"Helvetica Neue",Helvetica,Arial,sans-serif,"Microsoft JhengHei";
+}
+.info_block p {
+	text-align: left;
+	font-weight: bold;
+	color:#EFA53D;
+	font-size: 21px;
+}
+.input_block {
+    border: 1px solid #EFEFEF;
+	border-left: 6px solid #5CB85C; 
+	border-radius:5px;
+	padding: 10px 10px 10px 10px;
+	margin-bottom:10px;
+	font-family:"Helvetica Neue",Helvetica,Arial,sans-serif,"Microsoft JhengHei";
+}
+.input_block p {
+	width:30%;
+	float:left;
+	text-align: left;
+	margin: 0px 0px 0px 0px;
+	font-weight: bold;
+	color:#5CB85C;
+	font-size: 21px;
+}
+.btn {
+  width: 100%;
+  border-radius: 5px;
+  padding: 15px 25px;
+  font-size: 22px;
+  text-decoration: none;
+  color: #fff;
+  position: relative;
+  display: inline-block;
+}
+
+.btn:active {
+  transform: translate(0px, 5px);
+  -webkit-transform: translate(0px, 5px);
+  box-shadow: 0px 1px 0px 0px;
+}
+
+.orange {
+  background-color: #e67e22;
+  box-shadow: 0px 5px 0px 0px #CD6509;
+}
+
+.orange:hover {
+  background-color: #FF983C;
+}
+
+.green {
+  background-color: #2ecc71;
+  box-shadow: 0px 5px 0px 0px #15B358;
+}
+
+.green:hover {
+  background-color: #48E68B;
+}
+
+.blue {
+  background-color: #55acee;
+  box-shadow: 0px 5px 0px 0px #3C93D5;
+}
+
+.blue:hover {
+  background-color: #6FC6FF;
+}

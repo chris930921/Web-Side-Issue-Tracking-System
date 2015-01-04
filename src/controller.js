@@ -147,6 +147,7 @@ function create_issue_button_event(){
 			  },
 			  success: function(data){
 			  	if(data.state){
+			  		click_list_button("issue_list_button");
 			  		open_page("issue_list_page");
 					init_issue_list_page(["新建立", "已指派", "已解決"]);
 			  		alert("Success Create Issue.");

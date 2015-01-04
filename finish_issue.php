@@ -38,10 +38,17 @@
 	if(count($result) == 0) exit(json_encode(array("state" =>false, "message"=>"Issue is not charged.")));
 	if($result[0]['publisher_id'] != $publisher_id) exit(json_encode(array("state" =>false, "message"=>"Issue is not charged by you.")));
 	
-	//insert charge person
+	//update finish time
 	$sql = 'UPDATE `ajax_final_web`.`schedule_issue`
 		SET`finished_date` = CURRENT_TIMESTAMP
 		WHERE `ticket_id` = ?;';
+	$statement = $pdo->prepare($sql);
+	$statement->bindParam(1, $issue_id);
+	is_excute_success($statement->execute());
+
+	//update state
+	$sql = 'UPDATE `ajax_final_web`.`ticket_issue`
+		SET `state` = 3 WHERE `id` = ? ;';
 	$statement = $pdo->prepare($sql);
 	$statement->bindParam(1, $issue_id);
 	is_excute_success($statement->execute());

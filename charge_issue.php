@@ -46,6 +46,13 @@
 	$statement->bindParam(2, $publisher_id);
 	is_excute_success($statement->execute());
 
+	//update state
+	$sql = 'UPDATE `ajax_final_web`.`ticket_issue`
+		SET `state` = 2 WHERE `id` = ? ;';
+	$statement = $pdo->prepare($sql);
+	$statement->bindParam(1, $issue_id);
+	is_excute_success($statement->execute());
+
 	$view = array("state" =>true);
 	echo json_encode($view);
 

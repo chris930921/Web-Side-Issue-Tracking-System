@@ -1,9 +1,11 @@
 <?php
 	header("Content-Type:application/json");
-
+	
 	$token = checkAndEqual('token',40);
 	$issue_id = checkAndZero('issue_id',10);
+
 	$issue_id = to_number('issue_id',$issue_id);
+
 
 	//資料庫
 	$host_url = "mysql:host=localhost;port=6033;dbname=ajax_final_web";
@@ -11,65 +13,43 @@
 	$pdo->query('SET NAMES "UTF8"');
 	$pdo->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
 
-	//get issue
-	$sql = 'SELECT 
-	 ticket_issue.id, 
-	 ticket_issue.title,
-	 ticket_issue.publisher_id,
-	 states.name as state, 
-	 priorities.name as priority,
-	 schedule_issue.occurency_date,
-	 schedule_issue.expectation_date,
-	 schedule_issue.finished_date
-
-	 FROM ajax_final_web.ticket_issue
-	 LEFT JOIN schedule_issue ON schedule_issue.ticket_id = ticket_issue.id
-	 LEFT JOIN states ON states.id = ticket_issue.state
-	 LEFT JOIN priorities ON priorities.id = ticket_issue.priority
-
-	 WHERE ? IN (SELECT token FROM ajax_final_web.token)
-	 	AND ticket_issue.id = ? ;';
+	//get token
+	$sql = 'SELECT user_id FROM ajax_final_web.token WHERE token = ?;';
 	$statement = $pdo->prepare($sql);
 	$statement->bindParam(1, $token);
-	$statement->bindParam(2, $issue_id);
 	is_excute_success($statement->execute());
 	$result = is_no_permission($statement->fetchAll());
+	$own_id = (int)$result[0]['user_id'];
 	$statement->closeCursor();
-	$view = $result[0];
 
-	//get issue publisher_id
-	$sql = 'SELECT login.email FROM ajax_final_web.login WHERE login.id = ? ;';
+	//check issue
+	$sql = 'SELECT * FROM ajax_final_web.ticket_issue WHERE ticket_issue.publisher_id = ? AND ticket_issue.id = ? ;';
 	$statement = $pdo->prepare($sql);
-	$statement->bindParam(1, $view['publisher_id']);
+	$statement->bindParam(1, $own_id);
+	$statement->bindParam(2, $issue_id);
 	is_excute_success($statement->execute());
-	$result = $statement->fetchAll();
+	is_no_result($statement->fetchAll());
 	$statement->closeCursor();
-	$view['publisher_name'] = $result[0]['email'];
 
-	//get issue charge by someone
-	$sql = 'SELECT * FROM ajax_final_web.person_in_charge WHERE person_in_charge.ticket_id = ?;';
-	$statement = $pdo->prepare($sql);
+	//delete issue schedule
+	#$sql = 'SELECT user_id FROM ajax_final_web.token WHERE token = ?;';
+	$delete_sql = 'DELETE FROM ajax_final_web.schedule_issue WHERE schedule_issue.ticket_id = ? ;';
+	$statement = $pdo->prepare($delete_sql);
 	$statement->bindParam(1, $issue_id);
 	is_excute_success($statement->execute());
-	$result = $statement->fetchAll();
 	$statement->closeCursor();
-	$view['is_charge'] = count($result) > 0;
 
-	if($view['is_charge']){
-		$view['charge_id'] = $result[0]['publisher_id'];
-		//get charge person name
-		$sql = 'SELECT login.email FROM ajax_final_web.login WHERE login.id = ? ;';
-		$statement = $pdo->prepare($sql);
-		$statement->bindParam(1, $view['charge_id']);
-		is_excute_success($statement->execute());
-		$result = $statement->fetchAll();
-		$statement->closeCursor();
-		$view['charge_name'] = $result[0]['email'];
-	}
-	var_dump($view);
-	exit();
+	//delete issue
+	$sql = 'DELETE FROM ajax_final_web.ticket_issue WHERE ticket_issue.publisher_id = ? AND ticket_issue.id = ? ;';
+	$statement = $pdo->prepare($sql);
+	$statement->bindParam(1,$own_id);
+	$statement->bindParam(2,$issue_id);
+	is_excute_success($statement->execute());
+	$statement->closeCursor();
 
-	echo json_encode($view);
+	$result = array();
+	$result['state'] = true;
+	echo json_encode($result);
 
 	function is_excute_success($execute_result){
 		$execute_fail = !$execute_result;

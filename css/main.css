@@ -197,7 +197,7 @@ html body{
 }
 .page{
 	position: relative;
-	width: 100%;
+	width: auto;
 	height: auto; 
 	padding: 30px 30px 30px 30px;/*留白*/
 	display:none;

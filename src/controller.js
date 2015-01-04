@@ -72,7 +72,7 @@ function logout_button_event(){
 	var logout = document.getElementById("logout_button");
 	logout.addEventListener("click",function(){
 		document.cookie='{}';
-		document.getElementById("login").style.display = "inline";
+		document.getElementById("login").style.display = "block";
 		document.getElementById("login").removeEventListener("webkitAnimationEnd", logined_animation_end);
 		document.getElementById("login").style.WebkitAnimation = "open_login 1s 1";
 		document.getElementById("login").style.animation = "open_login 1s 1";
@@ -105,7 +105,7 @@ function logined(){
 	document.getElementById("login").addEventListener("webkitAnimationEnd", logined_animation_end, false);
 	var elements = document.getElementsByClassName('right_option');
 	for(var i = 0; i<elements.length; i++){
-		elements[i].style.display='inline';
+		elements[i].style.display='block';
 	}
 	init_issue_list_page();
 }
@@ -126,7 +126,7 @@ function open_page(page_name){
 	for(var i = 0; i < pages.length ; i++){
 		pages[i].style.display='none';
 	}
-	document.getElementById(page_name).style.display='inline';
+	document.getElementById(page_name).style.display='block';
 }
 function init_issue_list_page(){
 	$.ajax({
@@ -189,8 +189,9 @@ function init_show_issue_page(issue_id){
 		  		document.getElementById("show_expectation").innerHTML = data.expectation_date;
 		  		document.getElementById("show_finish").innerHTML = data.finished_date;
 		  		document.getElementById("show_content").innerHTML = data.content;
+		  		document.getElementById("show_person_in_charge").innerHTML = '';
 		  		if(data.is_charge)
-		  			document.getElementById("show_person_in_charge").innerHTML = data.publisher_name;
+		  			document.getElementById("show_person_in_charge").innerHTML = data.charge_name;
 		  	}catch(err){
 		  		console.log(err);
 	  			console.log(data.message);

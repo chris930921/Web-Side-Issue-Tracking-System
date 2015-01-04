@@ -172,6 +172,7 @@ html body{
 .custom_table tr:first-child{ 
 	background-color: #337AB7; 
 	color:#FFFFFF;
+	height: 38px;
 	/*font-weight: bold;*/
 }
 .custom_table tr:last-child td{ 

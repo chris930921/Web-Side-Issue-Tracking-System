@@ -15,6 +15,9 @@ function init(){
 	create_issue_button_event();
 	charge_button_event();
 	finish_issue_button_event();
+	list_new_button_event();
+	list_chrage_button_event();
+	list_finished_button_event();
 }
 function login_button_event(){
 	var login = document.getElementById("login_button");
@@ -87,6 +90,7 @@ function new_issue_event(){
 	var new_issue = document.getElementById("new_issue_button");
 	new_issue.addEventListener("click",function(){
 		open_page("new_issue_page");
+		init_new_issue_page();
 	});
 }
 function manage_button_event(){
@@ -99,8 +103,33 @@ function manage_button_event(){
 function issue_list_event(){
 	var issue_list = document.getElementById("issue_list_button");
 	issue_list.addEventListener("click",function(){
+		click_list_button("issue_list_button");
 		open_page("issue_list_page");
-		init_issue_list_page();
+		init_issue_list_page(["新建立", "已指派", "已解決"]);
+	});
+}
+function list_new_button_event(){
+	var list_new_button = document.getElementById("list_new_button");
+	list_new_button.addEventListener("click",function(){
+		click_list_button("list_new_button");
+		open_page("issue_list_page");
+		init_issue_list_page(["新建立"]);
+	});
+}
+function list_chrage_button_event(){
+	var list_chrage_button = document.getElementById("list_chrage_button");
+	list_chrage_button.addEventListener("click",function(){
+		click_list_button("list_chrage_button");
+		open_page("issue_list_page");
+		init_issue_list_page(["已指派"]);
+	});
+}
+function list_finished_button_event(){
+	var list_finished_button = document.getElementById("list_finished_button");
+	list_finished_button.addEventListener("click",function(){
+		click_list_button("list_finished_button");
+		open_page("issue_list_page");
+		init_issue_list_page(["已解決"]);
 	});
 }
 function create_issue_button_event(){
@@ -119,7 +148,7 @@ function create_issue_button_event(){
 			  success: function(data){
 			  	if(data.state){
 			  		open_page("issue_list_page");
-					init_issue_list_page();
+					init_issue_list_page(["新建立", "已指派", "已解決"]);
 			  		alert("Success Create Issue.");
 			  	}else{
 			  		alert(data.message);
@@ -189,7 +218,7 @@ function logined(){
 	for(var i = 0; i<elements.length; i++){
 		elements[i].style.display='block';
 	}
-	init_issue_list_page();
+	init_issue_list_page(["新建立", "已指派", "已解決"]);
 }
 function hidden(){
 	document.getElementById("load_spinner").style.display='none';
@@ -210,7 +239,7 @@ function open_page(page_name){
 	}
 	document.getElementById(page_name).style.display='block';
 }
-function init_issue_list_page(){
+function init_issue_list_page(filter_array){
 	$.ajax({
 		  type: "POST",
 		  url: "./issue_list.php",
@@ -222,6 +251,8 @@ function init_issue_list_page(){
 		  	var content_tr = '';
 		  	for(var i = 0;;i++){
 		  		try{
+			  		if(filter_array.indexOf(data[i].state) < 0)
+		  				continue;
 		  			content = '<td><p hidden>'+data[i].id+'</p>'+data[i].title+'</td>'
 		  				+'<td>'+data[i].state+'</td>'
 		  				+'<td>'+data[i].priority+'</td>'
@@ -367,4 +398,18 @@ function init_manage_issue_page(){
 		  },
 		  dataType: "json"
 	});
+}
+function init_new_issue_page(){
+	document.getElementById("new_title").value = '';
+	document.getElementById("new_expectation").value = '';
+	document.getElementById("new_content").value = '';
+	document.getElementById('new_priority').getElementsByTagName('option')[0].selected = 'selected'
+}
+function click_list_button(name){
+	document.getElementById("issue_list_button").className = '';
+	document.getElementById("list_new_button").className = '';
+	document.getElementById("list_chrage_button").className = '';
+	document.getElementById("list_finished_button").className = '';
+
+	document.getElementById(name).className = 'selected_sdie_option';
 }

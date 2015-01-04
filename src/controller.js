@@ -12,6 +12,7 @@ function init(){
 	new_issue_event();
 	manage_button_event();
 	issue_list_event();
+	create_issue_button_event();
 }
 function login_button_event(){
 	var login = document.getElementById("login_button");
@@ -97,8 +98,37 @@ function issue_list_event(){
 	var issue_list = document.getElementById("issue_list_button");
 	issue_list.addEventListener("click",function(){
 		open_page("issue_list_page");
+		init_issue_list_page();
 	});
-	init_issue_list_page();
+}
+function create_issue_button_event(issue_id){
+	document.getElementById("create_issue_button").addEventListener("click",function(e){
+		$.ajax({
+			  type: "POST",
+			  url: "./new_issue.php",
+			  data: {
+			  	token : JSON.parse(document.cookie).token,
+			  	title : document.getElementById("new_title").value,
+			  	state : 1,
+			  	priority : document.getElementById("new_priority").options[document.getElementById("new_priority").selectedIndex].value,
+			  	expectation : document.getElementById("new_expectation").value,
+			  	content : document.getElementById("new_content").value
+			  },
+			  success: function(data){
+			  	if(data.state){
+			  		open_page("issue_list_page");
+					init_issue_list_page();
+			  		alert("Success Create Issue.");
+			  	}else{
+			  		alert(data.message);
+			  	}
+			  },
+			  error: function(jqXHR, textStatus, errorThrown){
+			  	console.log('載入issue列表失敗: '+errorThrown);
+			  },
+			  dataType: "json"
+		});	
+	});
 }
 function logined(){
 	open_page("issue_list_page");

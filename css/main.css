@@ -243,6 +243,23 @@ html body{
 	color:#5CB85C;
 	font-size: 21px;
 }
+.message_block {
+    border: 1px solid #EFEFEF;
+	border-left: 6px solid #5BC0DE; 
+	border-radius:5px;
+	padding: 10px 10px 10px 10px;
+	margin-bottom:10px;
+	font-family:"Helvetica Neue",Helvetica,Arial,sans-serif,"Microsoft JhengHei";
+}
+.message_block p {
+	width:30%;
+	float:left;
+	text-align: left;
+	margin: 0px 0px 0px 0px;
+	font-weight: bold;
+	color:#5BC0DE;
+	font-size: 21px;
+}
 .btn {
   width: 100%;
   border-radius: 5px;

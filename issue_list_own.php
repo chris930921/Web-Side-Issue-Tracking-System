@@ -1,6 +1,7 @@
 <?php
 	header("Content-Type:application/json");
 	include "connect.php";
+	include "exception.php";
 	
 	if(isset($_POST['token']) == false)	
 		exit(json_encode(array("state" =>false, "message"=>"Token is not post.")));
@@ -12,9 +13,7 @@
 	//get token
 	$select_sql = "SELECT TOP 1 user_id FROM token WHERE token LIKE '$token' ";
 	@$result = query($select_sql);
-	if(count($result) == 0 ) 
-		exit(json_encode(array("state" =>false, "message"=>"You don't have permission to access.")));
-
+	is_no_permission($result);
 	$own_id = $result[0]['user_id'];
 
 	//get issue
@@ -36,7 +35,5 @@
 		ORDER BY schedule_issue.occurency_date ASC;';
 
 	@$result = query($select_sql);
-	if(!$result)
-		exit(json_encode(array("state" =>false, "message"=>"Database execute fail.")));
-
+	is_excute_success($result);
 	echo json_encode($result);

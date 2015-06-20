@@ -1,5 +1,8 @@
 <?php
 	header("Content-Type:application/json");
+	include "connect.php";
+	include "exception.php";
+	include "checker.php";
 
 	$token = checkAndEqual('token',40);
 	$title = checkAndZero('title',200);
@@ -10,81 +13,27 @@
 
 	$state = to_number('state',$state);
 	$priority = to_number('priority',$priority);
-	$expectation = strtotime($expectation." GMT+8:00");
 
-	$pdo = connect_database();
 	//get token
-	$sql = 'SELECT user_id FROM ajax_final_web.token WHERE token = ?;';
-	$statement = $pdo->prepare($sql);
-	$statement->bindParam(1, $token);
-	is_excute_success($statement->execute());
-	$result = is_no_result($statement->fetchAll());
+	$result = query("SELECT user_id FROM token WHERE token like '$token';");
+	is_no_permission($result);
 	$publisher_id = $result[0]['user_id'];
 
 	//insert issue info
-	$sql = 'INSERT INTO `ajax_final_web`.`ticket_issue` (
-		`publisher_id`,`title`,`content`,`state`,`priority`
-		) VALUES (?, ?, ?, ?, ?);';
-	$statement = $pdo->prepare($sql);
-	$statement->bindParam(1, $publisher_id);
-	$statement->bindParam(2, $title);
-	$statement->bindParam(3, $content);
-	$statement->bindParam(4, $state);
-	$statement->bindParam(5, $priority);
-
-	is_excute_success($statement->execute());
-	$issue_id = $pdo->lastInsertId();
+	$sql = "INSERT INTO ticket_issue (
+		publisher_id,title,content,state,priority
+		) VALUES (".$publisher_id.", '".$title."', '".$content."', ".$state.", ".$priority.");
+	
+		SELECT SCOPE_IDENTITY() AS lastInsertId;	
+	";
+	$result = query($sql);
+	is_excute_success($result);
+	$issue_id = $result[0]['lastInsertId'];
 
 	//insert issue schedule
-	$sql = 'INSERT INTO `ajax_final_web`.`schedule_issue`(
-		`ticket_id`,`occurency_date`,`expectation_date`
-		) VALUES ( ? ,CURRENT_TIMESTAMP, FROM_UNIXTIME(?) );';
-	$statement = $pdo->prepare($sql);
-	$statement->bindParam(1, $issue_id);
-	$statement->bindParam(2, $expectation);
+	$sql = "INSERT INTO schedule_issue(
+		ticket_id,occurency_date,expectation_date
+		) VALUES ( ".$issue_id." ,CURRENT_TIMESTAMP, '".$expectation."' );";
 
-	$result = is_excute_success($statement->execute());
-	//show api
+	$result = excute($sql);
 	echo json_encode(array('state'=>$result));
-
-	//function--------------------------------------------------------------------------------
-	function checkAndEqual($name,$max_length){
-		$check_value = check($name, $max_length);
-		if(strlen($check_value) != $max_length)
-			exit(json_encode(array("state" =>false, "message"=>$name." is not valid.")));
-		return $check_value;
-	}
-	function checkAndZero($name,$max_length){
-		$check_value = check($name, $max_length);
-		if(strlen($check_value) == 0)	
-			exit(json_encode(array("state" =>false, "message"=>$name." is empty.")));
-		return $check_value;
-	}
-	function check($name, $max_length){
-		if(isset($_POST[$name]) == false)	
-			exit(json_encode(array("state" =>false, "message"=>$name." is not post.")));
-		return substr($_POST[$name],0,$max_length);
-	}
-	function connect_database(){
-		$host_url = "mysql:host=localhost;port=6033;dbname=ajax_final_web";
-		$pdo = new PDO($host_url, "ajax_final","ajax_final" );
-		$pdo->query('SET NAMES "UTF8"');
-		$pdo->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
-		return $pdo;
-	}
-	function is_excute_success($execute_result){
-		$execute_fail = !$execute_result;
-		if($execute_fail)	
-			exit(json_encode(array("state" =>false, "message"=>"Database execute fail.")));
-		return $execute_result;
-	}
-	function is_no_result($result){
-		if(count($result) == 0) 
-			exit(json_encode(array("state" =>false, "message"=>"You don't have permission to access.")));
-		return $result;
-	}
-	function to_number($name, $check){
-		if(!is_numeric($check))
-			exit(json_encode(array("state" =>false, "message"=>$name." is not valid number.")));
-		return (int)$check;
-	}

@@ -10,7 +10,7 @@
 		exit(json_encode(array("state" =>false, "message"=>"Token is not valid.")));
 
 	$select_sql = "SELECT TOP 1 1 FROM token WHERE token LIKE '$token' ";
-	$result = query($select_sql);
+	@$result = query($select_sql);
 
 	if(count($result) == 0 ) 
 		exit(json_encode(array("state" =>false, "message"=>"You don't have permission to access.")));
@@ -31,7 +31,7 @@
 
 	 ORDER BY schedule_issue.occurency_date ASC; ";
 
-	$result = query($select_sql);
+	@$result = query($select_sql);
 	if(!$result)
 		exit(json_encode(array("state" =>false, "message"=>"Database execute fail.")));
 

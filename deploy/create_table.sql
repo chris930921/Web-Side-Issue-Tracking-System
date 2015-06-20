@@ -1,5 +1,6 @@
 
 -- clear
+USE databaseFinal;
 
 IF OBJECT_ID('dbo.token', 'U') IS NOT NULL DROP TABLE dbo.token;
 IF OBJECT_ID('dbo.message_ticket', 'U') IS NOT NULL DROP TABLE dbo.message_ticket;
@@ -9,6 +10,8 @@ IF OBJECT_ID('dbo.ticket_issue', 'U') IS NOT NULL DROP TABLE dbo.ticket_issue;
 IF OBJECT_ID('dbo.login', 'U') IS NOT NULL DROP TABLE dbo.login;
 IF OBJECT_ID('dbo.priorities', 'U') IS NOT NULL DROP TABLE dbo.priorities;
 IF OBJECT_ID('dbo.states', 'U') IS NOT NULL DROP TABLE dbo.states;
+
+
 
 -- create
 CREATE TABLE states(
@@ -65,52 +68,52 @@ CREATE TABLE message_ticket(
 CREATE TABLE token(
 	token TEXT NOT NULL DEFAULT '0',
 	user_id int NOT NULL DEFAULT '0' FOREIGN KEY REFERENCES login(id) ON DELETE NO ACTION ON UPDATE NO ACTION,
-	timestamp datetime NOT NULL,
+	timestamp datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
 );
 
 
 -- insert constant data-----------------------------------------------------------------------------------------
-INSERT INTO databaseFinal..states(name) VALUES('·s«Ø¥ß');
-INSERT INTO databaseFinal..states(name) VALUES('¤w«ü¬£');
-INSERT INTO databaseFinal..states(name) VALUES('¤w¸Ñ¨M');
+INSERT INTO states(name) VALUES('æ–°å»ºç«‹');
+INSERT INTO states(name) VALUES('å·²æŒ‡æ´¾');
+INSERT INTO states(name) VALUES('å·²è§£æ±º');
 
-INSERT INTO  databaseFinal..priorities(name) VALUES('§C');
-INSERT INTO  databaseFinal..priorities(name) VALUES('¤¤µ¥');
-INSERT INTO  databaseFinal..priorities(name) VALUES('°ª');
+INSERT INTO  priorities(name) VALUES('ä½Ž');
+INSERT INTO  priorities(name) VALUES('ä¸­ç­‰');
+INSERT INTO  priorities(name) VALUES('é«˜');
 
 -- insert test data-----------------------------------------------------------------------------------------
 -- password 123456
 DECLARE @publisher1_id char
 DECLARE @publisher2_id char
 
-INSERT INTO databaseFinal..login(email,password,salt)
+INSERT INTO login(email,password,salt)
 VALUES('asdzxc@email.com','9a9eb9c3582cc2603014e97e05dbc589908325c1','1234567890123456');
 SET @publisher1_id = SCOPE_IDENTITY();
 
-INSERT INTO  databaseFinal..login(email,password,salt)
+INSERT INTO  login(email,password,salt)
 VALUES('qwerty@email.com','9a9eb9c3582cc2603014e97e05dbc589908325c1','1234567890123456');
 SET @publisher2_id = SCOPE_IDENTITY();
 
-INSERT INTO databaseFinal..ticket_issue(publisher_id,title,content,state,priority)
+INSERT INTO ticket_issue(publisher_id,title,content,state,priority)
 VALUES(@publisher1_id,'how to catch the value of a dropdown using jquery and pass it to the controller','i am very new to jquery and mvc want to learn something like, i have two dropdown in mvc app i want to catch that selected value using jquery and want to pass it to the controller how can i do that.here is my dropdwon code in my view . please help.',1,2);
-INSERT INTO databaseFinal..schedule_issue(ticket_id,occurency_date,expectation_date)
+INSERT INTO schedule_issue(ticket_id,occurency_date,expectation_date)
 VALUES(SCOPE_IDENTITY(),CURRENT_TIMESTAMP,DATEADD(DAY,10,CURRENT_TIMESTAMP));
 
-INSERT INTO databaseFinal..ticket_issue(publisher_id,title,content,state,priority)
+INSERT INTO ticket_issue(publisher_id,title,content,state,priority)
 VALUES(@publisher2_id,'How to echo a form value into url without page refresh','How can I accomplish to make form.action="analyse1.php" in this case be form.action="analyseday1.php ',1,3);
-INSERT INTO databaseFinal..schedule_issue(ticket_id,occurency_date,expectation_date)
+INSERT INTO schedule_issue(ticket_id,occurency_date,expectation_date)
 VALUES(SCOPE_IDENTITY(),CURRENT_TIMESTAMP,DATEADD(DAY,15,CURRENT_TIMESTAMP));
-INSERT INTO databaseFinal..ticket_issue(publisher_id,title,content,state,priority)
+INSERT INTO ticket_issue(publisher_id,title,content,state,priority)
 VALUES(@publisher2_id,'gmap3 | 2nd or 3rd maps are not working properly when I used them in tabs,','',2,3);
-INSERT INTO databaseFinal..schedule_issue(ticket_id,occurency_date,expectation_date)
+INSERT INTO schedule_issue(ticket_id,occurency_date,expectation_date)
 VALUES(SCOPE_IDENTITY(),CURRENT_TIMESTAMP,DATEADD(DAY,20,CURRENT_TIMESTAMP));
 
-INSERT INTO databaseFinal..ticket_issue(publisher_id,title,content,state,priority)
+INSERT INTO ticket_issue(publisher_id,title,content,state,priority)
 VALUES(@publisher1_id,'Where NOT in pivot table','Maybe I can use show hide in js but not sure how to find a way to work it. Perhaps the problem is caused by maps are placing over each. You can reach to page via',3,1);
-INSERT INTO databaseFinal..schedule_issue(ticket_id,occurency_date,expectation_date)
+INSERT INTO schedule_issue(ticket_id,occurency_date,expectation_date)
 VALUES(SCOPE_IDENTITY(),CURRENT_TIMESTAMP,DATEADD(DAY,25,CURRENT_TIMESTAMP));
 
-INSERT INTO databaseFinal..ticket_issue(publisher_id,title,content,state,priority)
+INSERT INTO ticket_issue(publisher_id,title,content,state,priority)
 VALUES(@publisher1_id,'NPE while publishing jasper reports?','However what if I want to get the opposite of that. And get all items the user DOES NOT have yet. So NOT in the pivot table.',2,1);
-INSERT INTO databaseFinal..schedule_issue(ticket_id,occurency_date,expectation_date)
+INSERT INTO schedule_issue(ticket_id,occurency_date,expectation_date)
 VALUES(SCOPE_IDENTITY(),'2015-01-01 12:00:00' ,CURRENT_TIMESTAMP);

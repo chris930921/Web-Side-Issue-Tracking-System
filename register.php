@@ -19,7 +19,7 @@
 		$password_sha1 = sha1($password."".$salt, false);
 
 		$query = "INSERT INTO login(email,password,salt) VALUES ('$account','$password_sha1','$salt')";
-		$result = excute($query);
+		@$result = excute($query);
 	}		
 	
 	$check &= $result;

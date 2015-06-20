@@ -73,13 +73,13 @@ CREATE TABLE token(
 
 
 -- insert constant data-----------------------------------------------------------------------------------------
-INSERT INTO states(name) VALUES('新建立');
-INSERT INTO states(name) VALUES('已指派');
-INSERT INTO states(name) VALUES('已解決');
+INSERT INTO states(name) VALUES('New');
+INSERT INTO states(name) VALUES('Assigned');
+INSERT INTO states(name) VALUES('Finished');
 
-INSERT INTO  priorities(name) VALUES('低');
-INSERT INTO  priorities(name) VALUES('中等');
-INSERT INTO  priorities(name) VALUES('高');
+INSERT INTO  priorities(name) VALUES('Low');
+INSERT INTO  priorities(name) VALUES('Medium');
+INSERT INTO  priorities(name) VALUES('High');
 
 -- insert test data-----------------------------------------------------------------------------------------
 -- password 123456

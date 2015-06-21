@@ -17,23 +17,22 @@
 	$own_id = $result[0]['user_id'];
 
 	//get issue
-	$select_sql = 'SELECT' 
-	.' ticket_issue.id,' 
-	.' ticket_issue.title,' 
-	.' states.name as state,' 
-	.' priorities.name as priority,'
-	.' schedule_issue.occurency_date,'
-	.' schedule_issue.expectation_date,'
-	.' schedule_issue.finished_date'
+	$select_sql = 'SELECT
+		ticket_issue.id,
+		ticket_issue.title,
+		states.name as state,
+		priorities.name as priority,
+		convert(varchar, schedule_issue.occurency_date, 120) AS occurency_date,
+		convert(varchar, schedule_issue.expectation_date, 120) AS expectation_date,
+		convert(varchar, schedule_issue.finished_date, 120) AS finished_date
 
-	.' FROM ticket_issue' 
-	.' LEFT JOIN schedule_issue ON schedule_issue.ticket_id = ticket_issue.id' 
-	.' LEFT JOIN states ON states.id = ticket_issue.state'
-	.' LEFT JOIN priorities ON priorities.id = ticket_issue.priority'
+		FROM ticket_issue
+		LEFT JOIN schedule_issue ON schedule_issue.ticket_id = ticket_issue.id
+		LEFT JOIN states ON states.id = ticket_issue.state
+		LEFT JOIN priorities ON priorities.id = ticket_issue.priority
 
-	.' WHERE ticket_issue.publisher_id = '.$own_id.'
-		ORDER BY schedule_issue.occurency_date ASC;';
-
+		WHERE ticket_issue.publisher_id = '.$own_id.
+		' ORDER BY schedule_issue.occurency_date ASC;';
 	@$result = query($select_sql);
 	is_excute_success($result);
 	echo json_encode($result);

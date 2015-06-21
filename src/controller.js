@@ -341,10 +341,10 @@ function init_show_issue_page(issue_id){
 		  		document.getElementById("show_person_in_charge").innerHTML = '';
 		  		if(data.is_charge){
 		  			document.getElementById("show_person_in_charge").innerHTML = data.charge_name;
-		  			if(data.is_charge_owner & data.finished_date=='0000-00-00 00:00:00'){
+					if(data.is_charge_owner & data.finished_date=='1900-01-01 00:00:00'){
 		  				document.getElementById("finish_issue_button").style.display = "block";
 		  			}
-		  		}else if(data.is_charge == false & data.finished_date=='0000-00-00 00:00:00'){
+				}else if(data.is_charge == false & data.finished_date=='1900-01-01 00:00:00'){
 		  			document.getElementById("charge_button").style.display = "block";
 		  		}
 		  	}catch(err){

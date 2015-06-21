@@ -53,7 +53,7 @@ CREATE TABLE schedule_issue(
 	ticket_id int NOT NULL DEFAULT '0' FOREIGN KEY REFERENCES ticket_issue(id) ON DELETE NO ACTION ON UPDATE NO ACTION,
 	occurency_date datetime NOT NULL,
 	expectation_date datetime ,
-	finished_date datetime ,
+	finished_date datetime NOT NULL DEFAULT 0,
 );
 
 CREATE TABLE message_ticket(

@@ -20,9 +20,9 @@
 	 ticket_issue.content,
 	 states.name as state, 
 	 priorities.name as priority,
-	 schedule_issue.occurency_date,
-	 schedule_issue.expectation_date,
-	 schedule_issue.finished_date
+	 convert(varchar, schedule_issue.occurency_date, 120) AS occurency_date,
+	 convert(varchar, schedule_issue.expectation_date, 120) AS expectation_date,
+	 convert(varchar, schedule_issue.finished_date, 120) AS finished_date
 
 	 FROM ticket_issue
 	 LEFT JOIN schedule_issue ON schedule_issue.ticket_id = ticket_issue.id

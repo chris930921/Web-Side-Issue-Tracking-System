@@ -21,7 +21,6 @@
 	//check is charged
 	$sql = 'SELECT * FROM person_in_charge WHERE person_in_charge.ticket_id = '.$issue_id.';';
 	$result = query($sql);
-	
 	already_exist($result, 'Issue charge');
 
 

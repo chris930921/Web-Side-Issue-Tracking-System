@@ -60,7 +60,7 @@ CREATE TABLE message_ticket(
 	id int NOT NULL IDENTITY(1,1),
 	ticket_id int NOT NULL DEFAULT '0' FOREIGN KEY REFERENCES ticket_issue(id) ON DELETE NO ACTION ON UPDATE NO ACTION,
 	publisher_id int NOT NULL DEFAULT '0' FOREIGN KEY REFERENCES login(id) ON DELETE NO ACTION ON UPDATE NO ACTION,
-	comment_date datetime NOT NULL,
+	comment_date datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
 	message text NOT NULL,
 	PRIMARY KEY (id),
 );

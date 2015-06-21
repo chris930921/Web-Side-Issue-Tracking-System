@@ -426,7 +426,10 @@ function init_manage_issue_page(){
 						  	}
 						  },
 						  error: function(jqXHR, textStatus, errorThrown){
-						  	console.log('載入issue列表失敗: '+errorThrown);
+							console.log('載入issue列表失敗: ');
+							console.log(jqXHR);
+							console.log(textStatus);
+							console.log(errorThrown);
 						  },
 						  dataType: "json"
 					});

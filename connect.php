@@ -33,6 +33,6 @@ function excute($query){
 
 function connect(){
 	$link = mssql_connect('127.0.0.1\SQLEXPRESS', 'user','user');
-	$db_selected = mssql_select_db('databaseFinal', $link);
+	$db_selected = mssql_select_db("[databaseFinal]", $link);
 	return $link;
 }
